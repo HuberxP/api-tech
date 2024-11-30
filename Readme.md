@@ -1,16 +1,17 @@
 # Si no corre
 
-Si al clonar el repo no te corre el serevidor instenta instalar estas dependencias
+Si al clonar el repo no te corre el servidor intenta instalar estas dependencias
 
-npm i nodemon -D 
-npm install bcrypt
-npm install jsonwebtoken
-npm install cors
-npm install pg
-npm install express
-npm init -y
+- npm i nodemon -D 
+- npm install bcrypt
+- npm install jsonwebtoken
+- npm install cors
+- npm install pg
+- npm install express
+- npm init -y
 
-* Configurar nodemon = te vas al archivo package.json y en la parte de scripts configuras asi: "dev": "nodemon main.js", guardas y despues en terminar ejecutas npm run dev para correr el servidor
+# Configurar nodemon 
+Te vas al archivo package.json y en la parte de scripts configuras asi: "dev": "nodemon main.js", guardas y despues en terminar ejecutas npm run dev para correr el servidor
 
 
 ![alt text](image.png)
