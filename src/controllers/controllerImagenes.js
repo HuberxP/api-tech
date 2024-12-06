@@ -1,4 +1,6 @@
 const pool = require('./conexion');
+const cloudinary = require('./cloudinary');
+const fs = require('fs'); // Para borrar el archivo temporal tras subirlo a Cloudinary
 
 
 const handleError = (res, error) => {
@@ -32,26 +34,41 @@ const getImagenes = async (req, res) => {
 };
 
 const createImagen = async (req, res) => {
-    const {url, fecha_subida, destino_id} = req.body;
-    if (!url || !destino_id) {
-        return res.status(400).send('Todos los campos son obligatorios');
+    // `req.file` es el archivo subido por multer
+    const file = req.file;
+    const { destino_id } = req.body; // supondremos que el destino se manda en el body
+
+    if (!file || !destino_id) {
+        return res.status(400).json({ error: 'Faltan campos: imagen o destino_id' });
     }
 
     try {
+        // Subir la imagen a Cloudinary
+        const result = await cloudinary.uploader.upload(file.path, {
+            folder: 'mis_imagenes', // Opcional: carpeta para organizar en Cloudinary
+            use_filename: true
+        });
+
+        const imageUrl = result.secure_url;
+
+        // Guardar URL en la base de datos
         const response = await pool.query(
-            'INSERT INTO imagenes (url, destino_id) VALUES ($1, $2)',
-            [url, destino_id]
+            'INSERT INTO imagenes (url, destino_id) VALUES ($1, $2) RETURNING *',
+            [imageUrl, destino_id]
         );
+
+        // Borrar el archivo temporal de la carpeta uploads
+        fs.unlinkSync(file.path);
+
         res.json({
-            message: 'Conjunto creado con éxito',
-            body: {
-                user: { url, destino_id, fecha_subida }
-            }
+            message: 'Imagen subida y guardada con éxito',
+            data: response.rows[0]
         });
     } catch (error) {
         handleError(res, error);
     }
 };
+
 
 const getImagenId = async (req, res) => {
     const id = req.params.id;
@@ -117,7 +134,7 @@ module.exports = {
     createImagen,
     getImagenId,
     deleteImagen,
-    patchImagen, 
+    patchImagen,
     countAllImagenes
-   
+
 };

@@ -1,21 +1,23 @@
 const { Router } = require('express');
 const router = Router();
+const upload = require('../middleware/multerConfig');
 
-const { 
-    getUsers, 
-    createUser, 
-    getUserbyId, 
-    deleteUser, 
-    updateUser, 
-    patchUser, 
-    optionsHandler, 
+
+const {
+    getUsers,
+    createUser,
+    getUserbyId,
+    deleteUser,
+    updateUser,
+    patchUser,
+    optionsHandler,
     loginUser,
-    countAllUsers 
+    countAllUsers
 } = require('../controllers/controllerUser');
 
 
 
-const { 
+const {
     getDestinos,
     createDestinos,
     getDestinobyId,
@@ -24,14 +26,14 @@ const {
     countAllDestinos
 } = require('../controllers/controllerDestinos');
 
-const { 
+const {
     getImagenes,
     createImagen,
     getImagenId,
     deleteImagen,
     patchImagen,
     countAllImagenes } =
-require('../controllers/controllerImagenes');
+    require('../controllers/controllerImagenes');
 
 const {
     getRol,
@@ -44,17 +46,17 @@ const {
 // Rutas para usuarios
 router.get('/usuario', getUsers);
 router.get('/usuario/:id', getUserbyId);
-router.post('/usuario/registro', createUser); 
-router.post('/usuario/login', loginUser); 
+router.post('/usuario/registro', createUser);
+router.post('/usuario/login', loginUser);
 router.delete('/usuario/:id', deleteUser);
 router.put('/usuario/:id', updateUser);
 router.patch('/usuario/:id', patchUser);
 router.options('/usuario', optionsHandler);
-router.get('/usuario/count', countAllUsers); 
+router.get('/usuario/count', countAllUsers);
 
 // Rutas para imagenes
+router.post('/imagenes', upload.single('imagen'), createImagen);
 router.get('/imagenes', getImagenes);
-router.post('/imagenes', createImagen);
 router.get('/imagenes/:id', getImagenId);
 router.delete('/imagenes/:id', deleteImagen);
 router.patch('/imagenes/:id', patchImagen);

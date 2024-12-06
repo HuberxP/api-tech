@@ -102,3 +102,9 @@ CREATE TABLE eventos (
     FOREIGN KEY (usuario_id) REFERENCES usuarios_c(id),
     FOREIGN KEY (destino_id) REFERENCES destinos(id)
 );
+
+/Para configurar las variables de entorno
+npm install dotenv
+
+/Para poder subir imagenes desde el frontend necesitamos un middleware
+npm install multer

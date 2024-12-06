@@ -3,6 +3,9 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+//Conexion
+require('dotenv').config();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -19,4 +22,4 @@ app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en: http://localhost:${PORT}`);
 });
 
-//Conexion
+

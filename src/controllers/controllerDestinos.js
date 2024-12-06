@@ -35,20 +35,20 @@ const getDestinos = async (req, res) => {
 };
 
 const createDestinos = async (req, res) => {
-    const {nombre_d, ubicacion, descripcion, fecha_creacion_d} = req.body;
+    const { nombre_d, ubicacion, descripcion } = req.body;
     if (!nombre_d || !ubicacion || !descripcion) {
         return res.status(400).send('Todos los campos son obligatorios');
     }
 
     try {
         const response = await pool.query(
-            'INSERT INTO destinos (nombre_d, ubicacion, descripcion, fecha_creacion_d) VALUES ($1, $2, $3)',
+            'INSERT INTO destinos (nombre_d, ubicacion, descripcion) VALUES ($1, $2, $3)',
             [nombre_d, ubicacion, descripcion]
         );
         res.json({
             message: 'Destino creado con éxito',
             body: {
-                user: {nombre_d, ubicacion, descripcion, fecha_creacion_d }
+                user: { nombre_d, ubicacion, descripcion }
             }
         });
     } catch (error) {
@@ -121,7 +121,7 @@ module.exports = {
     createDestinos,
     getDestinobyId,
     deleteDestino,
-    patchDestino, 
+    patchDestino,
     countAllDestinos
-   
+
 };
