@@ -7,9 +7,12 @@ const pool = new Pool({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     port: process.env.POSTGRES_PORT,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    //ssl: {
+    //     rejectUnauthorized: false
+    //}
 });
+
+pool.on('connect', () => { console.log('Conexión establecida con la base de datos.'); });
+pool.on('error', (err) => { console.error('Error en la conexión a la base de datos:', err); });
 
 module.exports = pool;

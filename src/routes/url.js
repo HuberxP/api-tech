@@ -32,7 +32,9 @@ const {
     getImagenId,
     deleteImagen,
     patchImagen,
-    countAllImagenes } =
+    countAllImagenes,
+    getDestinoImagen,
+    getUserImage } =
     require('../controllers/controllerImagenes');
 
 const {
@@ -62,6 +64,8 @@ router.delete('/imagenes/:id', deleteImagen);
 router.patch('/imagenes/:id', patchImagen);
 router.options('/imagenes', optionsHandler);
 router.get('/imagenes/count', countAllImagenes);
+router.get('/imagenes/usuario/:usuario_id', getUserImage);
+router.get('/imagenes/destino/:destino_id', getDestinoImagen);
 
 
 // Rutas para destino

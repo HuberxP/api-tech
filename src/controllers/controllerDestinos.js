@@ -1,5 +1,5 @@
 const pool = require('./conexion');
-
+const { format } = require('date-fns')
 
 const handleError = (res, error) => {
     console.error('Error ejecutando la consulta', error.stack);
@@ -40,15 +40,19 @@ const createDestinos = async (req, res) => {
         return res.status(400).send('Todos los campos son obligatorios');
     }
 
+
     try {
+        // Fecha de registro actual
+        const fecha_creacion_d = new Date();
+        const fecha_formateada = format(fecha_creacion_d, 'yyyy-MM-dd HH:mm:ss')
         const response = await pool.query(
-            'INSERT INTO destinos (nombre_d, ubicacion, descripcion) VALUES ($1, $2, $3)',
-            [nombre_d, ubicacion, descripcion]
+            'INSERT INTO destinos (nombre_d, ubicacion, descripcion, fecha_creacion_d) VALUES ($1, $2, $3, $4)',
+            [nombre_d, ubicacion, descripcion, fecha_creacion_d]
         );
         res.json({
             message: 'Destino creado con éxito',
             body: {
-                user: { nombre_d, ubicacion, descripcion }
+                user: { nombre_d, ubicacion, descripcion, fecha_creacion_d }
             }
         });
     } catch (error) {
